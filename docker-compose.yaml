@@ -1,0 +1,57 @@
+services:
+  # API Gateway service
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - localstack
+    volumes:
+      - ./api:/app
+    restart: unless-stopped
+    networks:
+      - app-network
+  
+  # Worker service for transcription and note generation
+  worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - localstack
+    volumes:
+      - ./worker:/app
+    restart: unless-stopped
+    networks:
+      - app-network
+    deploy:
+      replicas: 2
+  
+  # LocalStack for AWS service emulation
+  localstack:
+    image: localstack/localstack:latest
+    ports:
+      - "4566:4566"
+    env_file:
+      - .env  
+    environment:
+
+      - SERVICES=s3,sqs,dynamodb
+      - DEBUG=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - ./localstack/init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

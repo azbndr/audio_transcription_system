@@ -1,0 +1,6 @@
+# worker/requirements.txt
+boto3==1.26.137
+openai==1.77.0
+git+https://github.com/openai/whisper.git
+torch==2.0.1
+numpy==1.24.3
