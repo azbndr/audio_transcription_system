@@ -2,6 +2,17 @@
 
 This project implements a scalable system for processing audio files, transcribing them using Whisper, and generating structured personal diary notes from the transcriptions using OpenAI's LLM.
 
+## 🔉 Audio Transcription System
+A scalable cloud-based solution for transcribing audio files using OpenAI Whisper, deployed with FastAPI (API service) and Celery (worker queues). Features:
+
+1. **End-to-End Pipeline**: Upload → Transcribe → Store
+2. **Infrastructure**: Dockerized microservices (API + Workers)
+3. **Cloud-Ready**: Integrates with AWS S3/SQS (LocalStack for dev)
+4. **Load Test Included**: Simulate high-volume requests
+
+**Tech Stack**: Python, FastAPI, OpenAI Whisper, Docker, AWS (S3/SQS), LocalStack
+
+
 ## System Features
 
 - **High Throughput**: Designed to process 10,000 hours of audio per hour
@@ -24,11 +35,14 @@ The system follows a microservice-based architecture with the following componen
 
 - Docker and Docker Compose
 - OpenAI API Key
-- Sample audio files for testing
+- Sample audio file/s for testing
 
 ### Environment Setup
 
 1. Clone this repository
+   ```bash
+   git clone https://github.com/azbndr/audio_transcription_system.git
+   ```
 2. Create `.env` file from the `.env.template` file
 
 
@@ -96,11 +110,10 @@ For deploying to a production environment, additional considerations include:
 ├── localstack/             # LocalStack initialization scripts
 │   └── init-aws.sh         # AWS resource initialization
 ├── test_sample/            # Sample data 
-|   └── sample.mp3          # 7-min audio
-|   └── sample1.mp3         # 1-hour audio
+|   └── sample.mp3          # Sample audio to be used in the stress test
 ├── tests/                  # Tests
 |   └── load_test.py        # Load testing script
 ├── .env                    # Environment varibles file     
 ├── docker-compose.yaml     # Local development setup
-└── README.md               # This file
+└── README.md               # This file 
 ```

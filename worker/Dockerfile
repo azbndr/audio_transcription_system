@@ -5,8 +5,7 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
     ffmpeg \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+    curl
 
 COPY requirements.txt .
 
